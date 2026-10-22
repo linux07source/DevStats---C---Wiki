@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStats & Personal C++ Wiki</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        code, pre, .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-sky-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid font-mono text-xl font-bold">&lt;/&gt;</i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">
+                        DevStats & C++ Wiki
+                    </h1>
+                    <p class="text-xs text-slate-400 font-mono">Directory Locale: <span class="text-sky-400 font-semibold">File/</span></p>
+                </div>
+            </div>
+
+            <!-- Actions Header -->
+            <div class="flex items-center space-x-3">
+                <a href="devstats_personal_wiki.html" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Torna alla Dashboard</span>
+                </a>
+                <label class="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5 shadow-md shadow-sky-600/20">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <span>Aggiungi File a File/</span>
+                    <input type="file" id="fileInput" multiple class="hidden" onchange="handleFileSelect(event)">
+                </label>
+                <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5">
+                    <i class="fa-solid fa-folder-plus"></i>
+                    <span>Aggiungi Cartella</span>
+                    <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden" onchange="handleFileSelect(event)">
+                </label>
+                <button onclick="resetFileSystem()" class="text-slate-400 hover:text-red-400 p-2 rounded-lg border border-slate-800 hover:border-red-900/50 transition-colors" title="Svuota Cartella File/">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Sidebar: Explorer Cartella File/ -->
+        <aside class="lg:col-span-4 space-y-6">
+            
+            <!-- Area Drag & Drop & File System Explorer -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col h-[600px]">
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                    <div class="flex items-center space-x-2 text-slate-200 font-semibold text-sm">
+                        <i class="fa-solid fa-folder-tree text-sky-400"></i>
+                        <span>Esplora Cartella <code class="text-sky-300">File/</code></span>
+                    </div>
+                    <span id="fileCountBadge" class="text-xs bg-slate-800 text-sky-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-mono">0 file</span>
+                </div>
+
+                <!-- Zone Drag and Drop -->
+                <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" 
+                     class="border-2 border-dashed border-slate-700 hover:border-sky-500 rounded-xl p-3 text-center transition-all bg-slate-950/50 cursor-pointer mb-3 group">
+                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-500 group-hover:text-sky-400 mb-1 transition-colors"></i>
+                    <p class="text-xs font-medium text-slate-300">Trascina qui file o cartelle</p>
+                    <p class="text-[10px] text-slate-500">Verranno salvati automaticamente dentro <code class="text-sky-400">File/</code></p>
+                </div>
+
+                <!-- File Tree Container -->
+                <div id="fileTreeContainer" class="flex-1 overflow-y-auto pr-1 space-y-1 text-xs">
+                    <!-- Dinamicamente popolato -->
+                </div>
+
+                <!-- Pulsante Nuovo File Manuale -->
+                <div class="pt-3 border-t border-slate-800 mt-2">
+                    <button onclick="promptCreateFile()" class="w-full py-2 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-medium transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-plus text-sky-400"></i>
+                        <span>Crea nuovo file in File/</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats veloci del Workspace -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Metriche Workspace</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[10px] text-slate-500 font-medium block">Righe di Codice</span>
+                        <span id="statLoc" class="text-lg font-bold text-sky-400 font-mono">0</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[10px] text-slate-500 font-medium block">Dimensione totale</span>
+                        <span id="statSize" class="text-lg font-bold text-indigo-400 font-mono">0 KB</span>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Right Content Area: Dashboard, Code Viewer & Projects -->
+        <section class="lg:col-span-8 space-y-6">
+
+            <!-- Tab Navigation -->
+            <div class="flex border-b border-slate-800 space-x-6 text-sm font-medium">
+                <button id="tabBtnDash" onclick="switchTab('dash')" class="pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard & Analytics</span>
+                </button>
+                <button id="tabBtnCode" onclick="switchTab('code')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Editor / Code Viewer</span>
+                </button>
+                <button id="tabBtnProjects" onclick="switchTab('projects')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span>Gestione Progetti</span>
+                    <span id="projectBadgeCount" class="bg-slate-800 text-slate-300 text-[10px] px-1.5 py-0.5 rounded-full font-mono">0</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: DASHBOARD & STATS -->
+            <div id="tabDash" class="space-y-6">
+                
+                <!-- Cards riassuntive -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-4">
+                        <div class="p-3 bg-sky-500/10 text-sky-400 rounded-lg text-xl">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Standard C++ Rilevato</span>
+                            <span id="detectedCppStd" class="text-base font-bold text-slate-100 font-mono">N/D</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-4">
+                        <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-lg text-xl">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Include Header Unici</span>
+                            <span id="detectedIncludesCount" class="text-base font-bold text-slate-100 font-mono">0</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-4">
+                        <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg text-xl">
+                            <i class="fa-solid fa-bug"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 block">Avvisi Code Review</span>
+                            <span id="detectedWarningsCount" class="text-base font-bold text-amber-400 font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafici -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col">
+                        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center justify-between">
+                            <span>Distribuzione File in <code class="text-sky-400">File/</code></span>
+                            <i class="fa-solid fa-chart-donut text-slate-500"></i>
+                        </h3>
+                        <div class="flex-1 min-h-[220px] flex items-center justify-center">
+                            <canvas id="chartLang" class="max-h-[220px]"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col">
+                        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center justify-between">
+                            <span>Frequenza Dipendenze #include</span>
+                            <i class="fa-solid fa-diagram-next text-slate-500"></i>
+                        </h3>
+                        <div class="flex-1 min-h-[220px] flex items-center justify-center">
+                            <canvas id="chartIncludes" class="max-h-[220px]"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Health Report -->
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+                    <h3 class="text-sm font-semibold text-slate-300 flex items-center justify-between">
+                        <span>Analisi di Sicurezza e Best Practice C++</span>
+                        <span class="text-xs text-slate-500 font-normal">Scansione automatica file *.cpp/*.hpp</span>
+                    </h3>
+                    <div id="codeHealthReport" class="space-y-2 text-xs">
+                        <!-- Popolato via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: CODE VIEWER / EDITOR -->
+            <div id="tabCode" class="hidden space-y-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col h-[650px]">
+                    <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-code text-sky-400"></i>
+                            <span id="currentEditingFilePath" class="font-mono text-xs text-slate-300 font-semibold">Nessun file selezionato</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="saveCurrentFile()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium flex items-center space-x-1">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Salva Modifiche</span>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="codeEditorArea" class="flex-1 w-full p-4 bg-slate-950 text-slate-200 font-mono text-xs focus:outline-none resize-none leading-relaxed" placeholder="// Seleziona un file dalla cartella File/ a sinistra per visualizzarlo o modificarlo..."></textarea>
+                </div>
+            </div>
+
+            <!-- TAB 3: GESTIONE PROGETTI -->
+            <div id="tabProjects" class="hidden space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-100">I Miei Progetti C++</h2>
+                        <p class="text-xs text-slate-400">Traccia l'avanzamento, i bug e le note di ottimizzazione per i tuoi progetti.</p>
+                    </div>
+                    <button onclick="openNewProjectModal()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Nuovo Progetto</span>
+                    </button>
+                </div>
+
+                <div id="projectsList" class="grid grid-cols-1 gap-4">
+                    <!-- Generato dinamicamente -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal Progetto -->
+    <div id="projectModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modalProjectTitle" class="text-base font-bold text-slate-100">Nuovo Progetto</h3>
+                <button onclick="closeProjectModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="projectForm" onsubmit="handleProjectSubmit(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="projId">
+                <div>
+                    <label class="block text-slate-400 font-medium mb-1">Nome Progetto</label>
+                    <input type="text" id="projName" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="es. GameEngine C++20">
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 font-medium mb-1">Descrizione</label>
+                    <textarea id="projDesc" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="Breve descrizione..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Avanzamento (%): <span id="projProgVal" class="text-sky-400 font-bold">0%</span></label>
+                        <input type="range" id="projProgress" min="0" max="100" value="0" oninput="document.getElementById('projProgVal').innerText = this.value + '%'" class="w-full accent-sky-500">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Standard C++ Target</label>
+                        <select id="projStd" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none">
+                            <option value="C++11">C++11</option>
+                            <option value="C++14">C++14</option>
+                            <option value="C++17">C++17</option>
+                            <option value="C++20" selected>C++20</option>
+                            <option value="C++23">C++23</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 font-medium mb-1">Note di Ottimizzazione / SIMD / Architettura</label>
+                    <input type="text" id="projNotes" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="es. Uso AVX2, Lock-free queues...">
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeProjectModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition font-medium">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition font-medium">Salva Progetto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script Logica -->
+    <script>
+        let virtualFS = {};
+        let activeFilePath = null;
+        let projects = [];
+
+        let chartLangInstance = null;
+        let chartIncludesInstance = null;
+
+        window.onload = function() {
+            loadFromLocalStorage();
+
+            // Avvio pulito: se virtualFS è vuoto, la cartella File/ risulta vuota[cite: 5].
+            renderFileTree();
+            updateAnalytics();
+            renderProjects();
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('cpp_wiki_fs', JSON.stringify(virtualFS));
+            localStorage.setItem('cpp_wiki_projects', JSON.stringify(projects));
+            // Sincronizzazione con la chiave standard condivisa con le altre pagine
+            localStorage.setItem('cpp_analyzed_files', JSON.stringify(virtualFS));
+        }
+
+        function loadFromLocalStorage() {
+            const savedFS = localStorage.getItem('cpp_wiki_fs') || localStorage.getItem('cpp_analyzed_files');
+            const savedProj = localStorage.getItem('cpp_wiki_projects');
+            if (savedFS) {
+                try { virtualFS = JSON.parse(savedFS); } catch(e) { virtualFS = {}; }
+            }
+            if (savedProj) {
+                try { projects = JSON.parse(savedProj); } catch(e) { projects = []; }
+            }
+        }
+
+        // Funzione per forzare il percorso all'interno della cartella fisica "File/"
+        function sanitizeToFilePath(rawPath) {
+            let clean = rawPath.replace(/\\/g, '/').replace(/^\/+/, '');
+            if (!clean.startsWith('File/')) {
+                clean = 'File/' + clean;
+            }
+            return clean;
+        }
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                let relPath = file.webkitRelativePath || file.name;
+                let targetPath = sanitizeToFilePath(relPath);
+
+                reader.onload = function(e) {
+                    virtualFS[targetPath] = e.target.result;
+                    saveToLocalStorage();
+                    renderFileTree();
+                    updateAnalytics();
+                };
+                reader.readAsText(file);
+            });
+            event.target.value = '';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.add('border-sky-500', 'bg-sky-500/10');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('border-sky-500', 'bg-sky-500/10');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('border-sky-500', 'bg-sky-500/10');
+
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                Array.from(e.dataTransfer.files).forEach(file => {
+                    const reader = new FileReader();
+                    let targetPath = sanitizeToFilePath(file.name);
+                    reader.onload = function(evt) {
+                        virtualFS[targetPath] = evt.target.result;
+                        saveToLocalStorage();
+                        renderFileTree();
+                        updateAnalytics();
+                    };
+                    reader.readAsText(file);
+                });
+            }
+        }
+
+        function renderFileTree() {
+            const container = document.getElementById('fileTreeContainer');
+            const fileCountBadge = document.getElementById('fileCountBadge');
+            container.innerHTML = '';
+
+            const paths = Object.keys(virtualFS).sort();
+            fileCountBadge.innerText = `${paths.length} file`;
+
+            if (paths.length === 0) {
+                container.innerHTML = `<div class="text-slate-500 italic p-4 text-center text-xs">La cartella <strong>File/</strong> è vuota.<br>Trascina file o cartelle qui sopra[cite: 5].</div>`;
+                return;
+            }
+
+            paths.forEach(filePath => {
+                const isSelected = filePath === activeFilePath;
+                const fileEl = document.createElement('div');
+                fileEl.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer text-xs font-mono transition-all ${
+                    isSelected ? 'bg-sky-600/20 text-sky-300 border border-sky-500/40' : 'hover:bg-slate-800 text-slate-300'
+                }`;
+
+                let iconClass = 'fa-file-code text-slate-400';
+                if (filePath.endsWith('.cpp') || filePath.endsWith('.cc')) iconClass = 'fa-brands fa-cplusplus text-sky-400';
+                else if (filePath.endsWith('.hpp') || filePath.endsWith('.h')) iconClass = 'fa-solid fa-file-lines text-indigo-400';
+
+                fileEl.innerHTML = `
+                    <div class="flex items-center space-x-2 truncate mr-2" onclick="openFile('${filePath}')">
+                        <i class="${iconClass}"></i>
+                        <span class="truncate" title="${filePath}">${filePath}</span>
+                    </div>
+                    <button onclick="deleteFile(event, '${filePath}')" class="text-slate-500 hover:text-red-400 p-1 opacity-60 hover:opacity-100 transition" title="Elimina">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+                container.appendChild(fileEl);
+            });
+        }
+
+        function openFile(filePath) {
+            activeFilePath = filePath;
+            document.getElementById('currentEditingFilePath').innerText = filePath;
+            document.getElementById('codeEditorArea').value = virtualFS[filePath] || '';
+            renderFileTree();
+            switchTab('code');
+        }
+
+        function saveCurrentFile() {
+            if (!activeFilePath) return;
+            const content = document.getElementById('codeEditorArea').value;
+            virtualFS[activeFilePath] = content;
+            saveToLocalStorage();
+            updateAnalytics();
+        }
+
+        function deleteFile(event, filePath) {
+            event.stopPropagation();
+            delete virtualFS[filePath];
+            if (activeFilePath === filePath) {
+                activeFilePath = null;
+                document.getElementById('currentEditingFilePath').innerText = 'Nessun file selezionato';
+                document.getElementById('codeEditorArea').value = '';
+            }
+            saveToLocalStorage();
+            renderFileTree();
+            updateAnalytics();
+        }
+
+        function promptCreateFile() {
+            const name = prompt("Inserisci il nome del file da creare in File/ (es. main.cpp o helper/utils.hpp):");
+            if (!name) return;
+            const targetPath = sanitizeToFilePath(name);
+            virtualFS[targetPath] = `// File creato in ${targetPath}\n#include <iostream>\n`;
+            saveToLocalStorage();
+            renderFileTree();
+            openFile(targetPath);
+        }
+
+        function resetFileSystem() {
+            if (confirm("Vuoi davvero svuotare tutti i file contenuti nella cartella File/?")) {
+                virtualFS = {};
+                activeFilePath = null;
+                document.getElementById('currentEditingFilePath').innerText = 'Nessun file selezionato';
+                document.getElementById('codeEditorArea').value = '';
+                localStorage.removeItem('cpp_wiki_fs');
+                localStorage.removeItem('cpp_analyzed_files');
+                renderFileTree();
+                updateAnalytics();
+            }
+        }
+
+        function switchTab(tab) {
+            document.getElementById('tabDash').classList.add('hidden');
+            document.getElementById('tabCode').classList.add('hidden');
+            document.getElementById('tabProjects').classList.add('hidden');
+
+            document.getElementById('tabBtnDash').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+            document.getElementById('tabBtnCode').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+            document.getElementById('tabBtnProjects').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+
+            if (tab === 'dash') {
+                document.getElementById('tabDash').classList.remove('hidden');
+                document.getElementById('tabBtnDash').className = "pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2 font-semibold";
+            } else if (tab === 'code') {
+                document.getElementById('tabCode').classList.remove('hidden');
+                document.getElementById('tabBtnCode').className = "pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2 font-semibold";
+            } else if (tab === 'projects') {
+                document.getElementById('tabProjects').classList.remove('hidden');
+                document.getElementById('tabBtnProjects').className = "pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2 font-semibold";
+            }
+        }
+
+        function updateAnalytics() {
+            let totalLoc = 0;
+            let totalBytes = 0;
+            let includesMap = {};
+            let extMap = {};
+            let warningsList = [];
+            let detectedStandards = new Set();
+
+            Object.entries(virtualFS).forEach(([filePath, content]) => {
+                const lines = content.split('\n');
+                totalLoc += lines.length;
+                totalBytes += content.length;
+
+                const ext = filePath.includes('.') ? filePath.split('.').pop() : 'other';
+                extMap[ext] = (extMap[ext] || 0) + 1;
+
+                lines.forEach((line, idx) => {
+                    const trimmed = line.trim();
+
+                    if (trimmed.startsWith('#include')) {
+                        const match = trimmed.match(/#include\s+[<"]([^>"]+)[>"]/);
+                        if (match) {
+                            const inc = match[1];
+                            includesMap[inc] = (includesMap[inc] || 0) + 1;
+                        }
+                    }
+
+                    if (trimmed.includes('std::make_unique') || trimmed.includes('auto ')) detectedStandards.add('C++14');
+                    if (trimmed.includes('std::optional') || trimmed.includes('std::variant') || trimmed.includes('constexpr if')) detectedStandards.add('C++17');
+                    if (trimmed.includes('std::concept') || trimmed.includes('co_await') || trimmed.includes('std::format')) detectedStandards.add('C++20');
+                    if (trimmed.includes('std::print')) detectedStandards.add('C++23');
+
+                    if (trimmed.includes('using namespace std;')) {
+                        warningsList.push({ file: filePath, line: idx + 1, msg: "Uso di 'using namespace std;' sconsigliato." });
+                    }
+                    if (trimmed.includes('NULL')) {
+                        warningsList.push({ file: filePath, line: idx + 1, msg: "Uso di 'NULL' anziché 'nullptr'." });
+                    }
+                    if (trimmed.includes('malloc(') || trimmed.includes('free(')) {
+                        warningsList.push({ file: filePath, line: idx + 1, msg: "Allocazione C-style (malloc/free). Utilizzare RAII." });
+                    }
+                });
+            });
+
+            document.getElementById('statLoc').innerText = totalLoc.toLocaleString();
+            document.getElementById('statSize').innerText = (totalBytes / 1024).toFixed(1) + ' KB';
+            document.getElementById('detectedIncludesCount').innerText = Object.keys(includesMap).length;
+            document.getElementById('detectedWarningsCount').innerText = warningsList.length;
+
+            const stdArray = Array.from(detectedStandards);
+            document.getElementById('detectedCppStd').innerText = stdArray.length > 0 ? stdArray.join(' / ') : 'N/D';
+
+            const healthReport = document.getElementById('codeHealthReport');
+            if (Object.keys(virtualFS).length === 0) {
+                healthReport.innerHTML = `<div class="p-3 bg-slate-950 text-slate-500 rounded-xl text-center">Nessun file analizzato. Aggiungi file alla cartella File/</div>`;
+            } else if (warningsList.length === 0) {
+                healthReport.innerHTML = `<div class="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Nessun avviso di sicurezza riscontrato nei file della cartella <strong>File/</strong>!</span>
+                </div>`;
+            } else {
+                healthReport.innerHTML = warningsList.map(w => `
+                    <div class="p-2.5 bg-slate-950 border border-amber-900/40 rounded-xl flex items-start space-x-2 text-slate-300">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-0.5"></i>
+                        <div>
+                            <span class="font-mono text-sky-400 font-semibold">${w.file}:${w.line}</span>
+                            <p class="text-slate-400 text-[11px]">${w.msg}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            updateCharts(extMap, includesMap);
+        }
+
+        function updateCharts(extMap, includesMap) {
+            const langCtx = document.getElementById('chartLang').getContext('2d');
+            const langLabels = Object.keys(extMap);
+            const langData = Object.values(extMap);
+
+            if (chartLangInstance) chartLangInstance.destroy();
+            chartLangInstance = new Chart(langCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: langLabels.length > 0 ? langLabels : ['Vuoto'],
+                    datasets: [{
+                        data: langData.length > 0 ? langData : [1],
+                        backgroundColor: ['#0284c7', '#6366f1', '#10b981', '#f59e0b', '#64748b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Fira Code', size: 10 } } }
+                    }
+                }
+            });
+
+            const incCtx = document.getElementById('chartIncludes').getContext('2d');
+            const sortedInc = Object.entries(includesMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            const incLabels = sortedInc.map(i => i[0]);
+            const incData = sortedInc.map(i => i[1]);
+
+            if (chartIncludesInstance) chartIncludesInstance.destroy();
+            chartIncludesInstance = new Chart(incCtx, {
+                type: 'bar',
+                data: {
+                    labels: incLabels.length > 0 ? incLabels : ['Nessun #include'],
+                    datasets: [{
+                        label: 'Frequenza',
+                        data: incData.length > 0 ? incData : [0],
+                        backgroundColor: '#38bdf8',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { ticks: { color: '#94a3b8', font: { family: 'Fira Code', size: 10 } }, grid: { display: false } },
+                        y: { ticks: { color: '#94a3b8', stepSize: 1 }, grid: { color: '#1e293b' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderProjects() {
+            const list = document.getElementById('projectsList');
+            document.getElementById('projectBadgeCount').innerText = projects.length;
+
+            if (projects.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                        <i class="fa-solid fa-diagram-project text-4xl text-slate-600 mb-3"></i>
+                        <h3 class="text-sm font-semibold text-slate-300">Nessun progetto registrato</h3>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">Crea un nuovo progetto per tracciare milestone e ottimizzazioni.</p>
+                        <button onclick="openNewProjectModal()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Crea Progetto
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = projects.map(p => {
+                const isCompleted = p.progress === 100;
+                return `
+                    <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h3 class="text-sm font-bold text-slate-100">${p.name}</h3>
+                                    <span class="bg-slate-800 text-sky-400 text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700">${p.std}</span>
+                                    ${isCompleted ? '<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-semibold px-2 py-0.5 rounded-full"><i class="fa-solid fa-check text-[9px] mr-1"></i>Completato</span>' : ''}
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">${p.desc || 'Nessuna descrizione.'}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="editProject('${p.id}')" class="text-slate-400 hover:text-sky-400 p-1 transition" title="Modifica">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="deleteProject('${p.id}')" class="text-slate-400 hover:text-red-400 p-1 transition" title="Elimina">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] font-mono">
+                                <span class="text-slate-400">Avanzamento</span>
+                                <span class="text-sky-400 font-bold">${p.progress}%</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                                <div class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full rounded-full transition-all duration-300" style="width: ${p.progress}%"></div>
+                            </div>
+                        </div>
+
+                        ${p.notes ? `
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80 text-xs text-slate-400 flex items-center space-x-2">
+                                <i class="fa-solid fa-bolt text-amber-400"></i>
+                                <span><strong class="text-slate-300">Ottimizzazione/SIMD:</strong> ${p.notes}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openNewProjectModal() {
+            document.getElementById('projId').value = '';
+            document.getElementById('projName').value = '';
+            document.getElementById('projDesc').value = '';
+            document.getElementById('projProgress').value = 0;
+            document.getElementById('projProgVal').innerText = '0%';
+            document.getElementById('projNotes').value = '';
+            document.getElementById('modalProjectTitle').innerText = 'Nuovo Progetto';
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        function editProject(id) {
+            const p = projects.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('projId').value = p.id;
+            document.getElementById('projName').value = p.name;
+            document.getElementById('projDesc').value = p.desc;
+            document.getElementById('projProgress').value = p.progress;
+            document.getElementById('projProgVal').innerText = p.progress + '%';
+            document.getElementById('projStd').value = p.std;
+            document.getElementById('projNotes').value = p.notes || '';
+            document.getElementById('modalProjectTitle').innerText = 'Modifica Progetto';
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function deleteProject(id) {
+            if (confirm("Vuoi eliminare questo progetto?")) {
+                projects = projects.filter(p => p.id !== id);
+                saveToLocalStorage();
+                renderProjects();
+            }
+        }
+
+        function handleProjectSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('projId').value || 'proj_' + Date.now();
+            const name = document.getElementById('projName').value;
+            const desc = document.getElementById('projDesc').value;
+            const progress = parseInt(document.getElementById('projProgress').value, 10);
+            const std = document.getElementById('projStd').value;
+            const notes = document.getElementById('projNotes').value;
+
+            const existingIdx = projects.findIndex(p => p.id === id);
+            const projectData = { id, name, desc, progress, std, notes };
+
+            if (existingIdx >= 0) {
+                projects[existingIdx] = projectData;
+            } else {
+                projects.push(projectData);
+            }
+
+            saveToLocalStorage();
+            closeProjectModal();
+            renderProjects();
+        }
+    </script>
+</body>
+</html>
