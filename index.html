@@ -36,7 +36,9 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -90,30 +92,36 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Brand / Logo -->
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 font-mono font-black text-xl shadow-lg shadow-cyan-500/20">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 font-mono font-black text-xl shadow-lg shadow-cyan-500/20">
                         C++
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-lg leading-tight tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+                        <h1
+                            class="font-extrabold text-lg leading-tight tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
                             CPP.DEV &amp; CODE ANALYZER
                         </h1>
                         <p class="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> g++ -O3 -std=c++20 main.cpp -Wall
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> g++ -O3 -std=c++20
+                            main.cpp -Wall
                         </p>
                     </div>
                 </div>
 
                 <!-- Live Clock & Upload Button -->
                 <div class="flex items-center gap-4 text-xs font-mono">
-                    <div class="hidden sm:flex items-center gap-2 bg-blue-950/60 text-cyan-300 border border-cyan-800/50 px-3.5 py-1.5 rounded-full shadow-inner">
+                    <div
+                        class="hidden sm:flex items-center gap-2 bg-blue-950/60 text-cyan-300 border border-cyan-800/50 px-3.5 py-1.5 rounded-full shadow-inner">
                         <i class="fa-solid fa-shield-halved text-cyan-400"></i>
                         <span id="header-leaks-status">Valgrind: 0 Leaks</span>
                     </div>
-                    <a href="upload_files1.html" target="_blank" class="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 px-4 py-2 rounded-xl transition-all duration-300 font-bold shadow-lg shadow-emerald-500/20 hover:scale-105">
+                    <a href="upload_files.html" target="_blank"
+                        class="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 px-4 py-2 rounded-xl transition-all duration-300 font-bold shadow-lg shadow-emerald-500/20 hover:scale-105">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         <span>Upload Files</span>
                     </a>
-                    <div id="live-clock" class="hidden md:block text-slate-400 bg-cyber-card/80 px-3 py-1.5 rounded-xl border border-cyber-border">
+                    <div id="live-clock"
+                        class="hidden md:block text-slate-400 bg-cyber-card/80 px-3 py-1.5 rounded-xl border border-cyber-border">
                         00:00:00 UTC
                     </div>
                 </div>
@@ -126,36 +134,54 @@
 
         <!-- PROFILE / C++ HERO SECTION -->
         <section class="relative overflow-hidden rounded-3xl glass-panel p-6 lg:p-8 shadow-2xl">
-            <div class="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div
+                class="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none">
+            </div>
 
             <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 relative z-10">
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
                     <div class="relative group">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl p-1 bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 shadow-xl shadow-cyan-500/20">
-                            <div class="w-full h-full bg-cyber-card rounded-xl flex items-center justify-center text-cyan-400 text-4xl">
+                        <div
+                            class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl p-1 bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 shadow-xl shadow-cyan-500/20">
+                            <div
+                                class="w-full h-full bg-cyber-card rounded-xl flex items-center justify-center text-cyan-400 text-4xl">
                                 <i class="fa-solid fa-terminal"></i>
                             </div>
                         </div>
-                        <span class="absolute -bottom-2 -right-2 bg-cyber-card text-emerald-400 p-2 rounded-xl border border-emerald-500/40 text-xs shadow-lg">
+                        <span
+                            class="absolute -bottom-2 -right-2 bg-cyber-card text-emerald-400 p-2 rounded-xl border border-emerald-500/40 text-xs shadow-lg">
                             <i class="fa-solid fa-microchip"></i>
                         </span>
                     </div>
 
                     <div class="space-y-2">
                         <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                            <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">C++ Systems Architect</h2>
-                            <span class="bg-cyan-950/80 text-cyan-300 text-xs font-mono px-3 py-1 rounded-full border border-cyan-700/50">Modern C++ Developer</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">C++ Systems Architect
+                            </h2>
+                            <span
+                                class="bg-cyan-950/80 text-cyan-300 text-xs font-mono px-3 py-1 rounded-full border border-cyan-700/50">Modern
+                                C++ Developer</span>
                         </div>
                         <p class="text-sm text-slate-400 max-w-lg leading-relaxed">
-                            Specializzato nello sviluppo C++ ad alte prestazioni, sistemi low-level e gestione avanzata della memoria.
+                            Specializzato nello sviluppo C++ ad alte prestazioni, sistemi low-level e gestione avanzata
+                            della memoria.
                         </p>
 
                         <div class="flex flex-wrap justify-center sm:justify-start gap-2 pt-1">
-                            <span class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-cyan-400"><i class="fa-solid fa-code text-[10px] mr-1"></i>C++20/C++23</span>
-                            <span class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-emerald-400"><i class="fa-solid fa-memory text-[10px] mr-1"></i>RAII / Smart Ptr</span>
-                            <span class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-purple-400"><i class="fa-solid fa-gears text-[10px] mr-1"></i>CMake &amp; Make</span>
-                            <span class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-amber-400"><i class="fa-solid fa-folder-tree text-[10px] mr-1"></i>Directory: File/</span>
+                            <span
+                                class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-cyan-400"><i
+                                    class="fa-solid fa-code text-[10px] mr-1"></i>C++20/C++23</span>
+                            <span
+                                class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-emerald-400"><i
+                                    class="fa-solid fa-memory text-[10px] mr-1"></i>RAII / Smart Ptr</span>
+                            <span
+                                class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-purple-400"><i
+                                    class="fa-solid fa-gears text-[10px] mr-1"></i>CMake &amp; Make</span>
+                            <span
+                                class="px-3 py-1 rounded-lg bg-cyber-card text-xs font-mono border border-cyber-border text-amber-400"><i
+                                    class="fa-solid fa-folder-tree text-[10px] mr-1"></i>Directory: File/</span>
                         </div>
                     </div>
                 </div>
@@ -165,17 +191,20 @@
                     <div class="glass-panel border border-cyber-border p-4 rounded-2xl text-center">
                         <div class="text-blue-400 text-xl mb-1.5"><i class="fa-solid fa-layer-group"></i></div>
                         <div id="stat-std-dominant" class="text-2xl font-black font-mono text-white">N/D</div>
-                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Standard Dominante</div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Standard
+                            Dominante</div>
                     </div>
                     <div class="glass-panel border border-cyber-border p-4 rounded-2xl text-center">
                         <div class="text-cyan-400 text-xl mb-1.5"><i class="fa-solid fa-file-code"></i></div>
                         <div id="stat-loc" class="text-2xl font-black font-mono text-white">0</div>
-                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Righe Analizzate</div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Righe
+                            Analizzate</div>
                     </div>
                     <div class="glass-panel border border-cyber-border p-4 rounded-2xl text-center">
                         <div class="text-emerald-400 text-xl mb-1.5"><i class="fa-solid fa-bug-slash"></i></div>
                         <div id="stat-detected-bugs" class="text-2xl font-black font-mono text-white">0</div>
-                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Bug / Warning</div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Bug /
+                            Warning</div>
                     </div>
                 </div>
             </div>
@@ -183,17 +212,21 @@
 
         <!-- NAVIGATION TABS (Senza Gestione Progetti) -->
         <nav class="flex space-x-3 border-b border-cyber-border/80 pb-2 overflow-x-auto scrollbar-none">
-            <button onclick="switchTab('charts')" id="tab-charts" class="tab-btn active text-cyan-400 border-cyan-400 bg-cyan-950/40 flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
+            <button onclick="switchTab('charts')" id="tab-charts"
+                class="tab-btn active text-cyan-400 border-cyan-400 bg-cyan-950/40 flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
                 <i class="fa-solid fa-chart-line text-emerald-400"></i> Standard &amp; Profiling Stats
             </button>
-            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn text-slate-400 hover:text-slate-200 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
+            <button onclick="switchTab('dashboard')" id="tab-dashboard"
+                class="tab-btn text-slate-400 hover:text-slate-200 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
                 <i class="fa-solid fa-calendar-days text-purple-400"></i> Activity Heatmap
             </button>
-            <button onclick="switchTab('wiki')" id="tab-wiki" class="tab-btn text-slate-400 hover:text-slate-200 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
+            <button onclick="switchTab('wiki')" id="tab-wiki"
+                class="tab-btn text-slate-400 hover:text-slate-200 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap">
                 <i class="fa-solid fa-book-bookmark text-blue-400"></i> Personal C++ Wiki
             </button>
 
-            <a href="upload_files1.html" target="_blank" class="text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/40 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap ml-auto">
+            <a href="upload_files1.html" target="_blank"
+                class="text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/40 border-transparent flex items-center gap-2 px-5 py-3 border-b-2 font-semibold text-sm rounded-t-2xl transition-all whitespace-nowrap ml-auto">
                 <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> Upload Files
             </a>
         </nav>
@@ -203,9 +236,12 @@
             <div class="glass-panel border border-cyber-border rounded-2xl p-4 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-arrows-rotate text-cyan-400 animate-spin"></i>
-                    <span class="text-xs font-mono text-slate-300">Le statistiche si aggiornano in tempo reale in base ai file caricati nella cartella File/[cite: 4].</span>
+                    <span class="text-xs font-mono text-slate-300">Le statistiche si aggiornano in tempo reale in base
+                        ai file caricati nella cartella File/[cite: 4].</span>
                 </div>
-                <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-lg border border-emerald-800/80">Live Sync Active</span>
+                <span
+                    class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-lg border border-emerald-800/80">Live
+                    Sync Active</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -255,13 +291,17 @@
 
         <!-- TAB 3: PERSONAL WIKI & SNIPPETS -->
         <div id="content-wiki" class="tab-content hidden space-y-6">
-            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-cyber-border">
+            <div
+                class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-cyber-border">
                 <div class="relative flex-1">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                    <input type="text" id="wiki-search" oninput="filterWiki()" placeholder="Cerca snippet C++..." class="w-full bg-cyber-bg border border-cyber-border rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400 transition">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                    <input type="text" id="wiki-search" oninput="filterWiki()" placeholder="Cerca snippet C++..."
+                        class="w-full bg-cyber-bg border border-cyber-border rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400 transition">
                 </div>
 
-                <button onclick="openWikiModal()" class="bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow-lg shadow-cyan-500/20">
+                <button onclick="openWikiModal()"
+                    class="bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow-lg shadow-cyan-500/20">
                     <i class="fa-solid fa-plus"></i> Nuovo Snippet
                 </button>
             </div>
@@ -273,36 +313,45 @@
 
     <!-- FOOTER -->
     <footer class="border-t border-cyber-border/80 glass-panel py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-mono flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div
+            class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-mono flex flex-col sm:flex-row justify-between items-center gap-2">
             <div>C++ Personal Developer Wiki &copy; 2026</div>
             <div class="text-cyan-400"><i class="fa-solid fa-terminal mr-1.5"></i>ISO C++ Standard</div>
         </div>
     </footer>
 
     <!-- MODAL WIKI -->
-    <div id="wiki-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+    <div id="wiki-modal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="glass-panel border border-cyber-border rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
             <div class="p-6 border-b border-cyber-border flex items-center justify-between">
                 <h3 id="wiki-modal-title" class="font-extrabold text-white text-lg">Aggiungi Snippet C++</h3>
-                <button onclick="closeWikiModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeWikiModal()" class="text-slate-400 hover:text-white"><i
+                        class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form id="wiki-form" onsubmit="saveWikiEntry(event)" class="p-6 space-y-4">
                 <input type="hidden" id="entry-id">
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">Titolo Snippet</label>
-                    <input type="text" id="entry-title" required placeholder="es. std::unique_ptr custom deleter" class="w-full bg-cyber-bg border border-cyber-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400">
+                    <input type="text" id="entry-title" required placeholder="es. std::unique_ptr custom deleter"
+                        class="w-full bg-cyber-bg border border-cyber-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400">
                 </div>
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">Descrizione</label>
-                    <textarea id="entry-desc" rows="2" required placeholder="Spiegazione breve..." class="w-full bg-cyber-bg border border-cyber-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400"></textarea>
+                    <textarea id="entry-desc" rows="2" required placeholder="Spiegazione breve..."
+                        class="w-full bg-cyber-bg border border-cyber-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-400"></textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-mono text-slate-400 mb-1">Codice C++</label>
-                    <textarea id="entry-code" rows="5" placeholder="// Codice C++..." class="w-full bg-cyber-bg border border-cyber-border font-mono text-xs rounded-xl p-3 text-cyan-300 focus:outline-none focus:border-cyan-400"></textarea>
+                    <textarea id="entry-code" rows="5" placeholder="// Codice C++..."
+                        class="w-full bg-cyber-bg border border-cyber-border font-mono text-xs rounded-xl p-3 text-cyan-300 focus:outline-none focus:border-cyan-400"></textarea>
                 </div>
                 <div class="flex justify-end gap-3 pt-3 border-t border-cyber-border">
-                    <button type="button" onclick="closeWikiModal()" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-cyber-bg transition">Annulla</button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black rounded-xl text-xs transition">Salva Snippet</button>
+                    <button type="button" onclick="closeWikiModal()"
+                        class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:bg-cyber-bg transition">Annulla</button>
+                    <button type="submit"
+                        class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-black rounded-xl text-xs transition">Salva
+                        Snippet</button>
                 </div>
             </form>
         </div>
@@ -328,7 +377,7 @@
             recalculateAllStats();
         };
 
-        window.onfocus = function() {
+        window.onfocus = function () {
             analyzedFiles = JSON.parse(localStorage.getItem('cpp_analyzed_files')) || {};
             recalculateAllStats();
         };
@@ -357,7 +406,7 @@
 
         function recalculateAllStats() {
             let totalLines = 0, totalBugs = 0;
-            let stdCounts = {'C++20': 1};
+            let stdCounts = { 'C++20': 1 };
 
             Object.values(analyzedFiles).forEach(f => {
                 totalLines += f.linesCount || (f.content ? f.content.split('\n').length : 0);
