@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it" class="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,63 +33,80 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-        
+
         body {
             font-family: 'Inter', sans-serif;
         }
-        code, pre, .font-mono {
+
+        code,
+        pre,
+        .font-mono {
             font-family: 'Fira Code', monospace;
         }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: #0f172a;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #334155;
             border-radius: 3px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #475569;
         }
     </style>
 </head>
+
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
 
     <!-- Header / Navbar -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-tr from-sky-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-sky-500/20">
+                <div
+                    class="bg-gradient-to-tr from-sky-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-lg shadow-sky-500/20">
                     <i class="fa-solid font-mono text-xl font-bold">&lt;/&gt;</i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">
+                    <h1
+                        class="text-lg font-bold bg-gradient-to-r from-sky-400 to-indigo-300 bg-clip-text text-transparent">
                         DevStats & C++ Wiki
                     </h1>
-                    <p class="text-xs text-slate-400 font-mono">Directory Locale: <span class="text-sky-400 font-semibold">File/</span></p>
+                    <p class="text-xs text-slate-400 font-mono">Directory Locale: <span
+                            class="text-sky-400 font-semibold">File/</span></p>
                 </div>
             </div>
 
             <!-- Actions Header -->
             <div class="flex items-center space-x-3">
-                <a href="devstats_personal_wiki.html" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1.5">
+                <a href="index.html"
+                    class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-semibold rounded-lg transition flex items-center space-x-1.5">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>Torna alla Dashboard</span>
                 </a>
-                <label class="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5 shadow-md shadow-sky-600/20">
+                <label
+                    class="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5 shadow-md shadow-sky-600/20">
                     <i class="fa-solid fa-file-circle-plus"></i>
                     <span>Aggiungi File a File/</span>
                     <input type="file" id="fileInput" multiple class="hidden" onchange="handleFileSelect(event)">
                 </label>
-                <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5">
+                <label
+                    class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-all flex items-center space-x-1.5">
                     <i class="fa-solid fa-folder-plus"></i>
                     <span>Aggiungi Cartella</span>
-                    <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden" onchange="handleFileSelect(event)">
+                    <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden"
+                        onchange="handleFileSelect(event)">
                 </label>
-                <button onclick="resetFileSystem()" class="text-slate-400 hover:text-red-400 p-2 rounded-lg border border-slate-800 hover:border-red-900/50 transition-colors" title="Svuota Cartella File/">
+                <button onclick="resetFileSystem()"
+                    class="text-slate-400 hover:text-red-400 p-2 rounded-lg border border-slate-800 hover:border-red-900/50 transition-colors"
+                    title="Svuota Cartella File/">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
@@ -100,7 +118,7 @@
 
         <!-- Left Sidebar: Explorer Cartella File/ -->
         <aside class="lg:col-span-4 space-y-6">
-            
+
             <!-- Area Drag & Drop & File System Explorer -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col h-[600px]">
                 <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
@@ -108,15 +126,20 @@
                         <i class="fa-solid fa-folder-tree text-sky-400"></i>
                         <span>Esplora Cartella <code class="text-sky-300">File/</code></span>
                     </div>
-                    <span id="fileCountBadge" class="text-xs bg-slate-800 text-sky-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-mono">0 file</span>
+                    <span id="fileCountBadge"
+                        class="text-xs bg-slate-800 text-sky-400 px-2.5 py-0.5 rounded-full border border-slate-700 font-mono">0
+                        file</span>
                 </div>
 
                 <!-- Zone Drag and Drop -->
-                <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" 
-                     class="border-2 border-dashed border-slate-700 hover:border-sky-500 rounded-xl p-3 text-center transition-all bg-slate-950/50 cursor-pointer mb-3 group">
-                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-500 group-hover:text-sky-400 mb-1 transition-colors"></i>
+                <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
+                    ondrop="handleDrop(event)"
+                    class="border-2 border-dashed border-slate-700 hover:border-sky-500 rounded-xl p-3 text-center transition-all bg-slate-950/50 cursor-pointer mb-3 group">
+                    <i
+                        class="fa-solid fa-cloud-arrow-up text-2xl text-slate-500 group-hover:text-sky-400 mb-1 transition-colors"></i>
                     <p class="text-xs font-medium text-slate-300">Trascina qui file o cartelle</p>
-                    <p class="text-[10px] text-slate-500">Verranno salvati automaticamente dentro <code class="text-sky-400">File/</code></p>
+                    <p class="text-[10px] text-slate-500">Verranno salvati automaticamente dentro <code
+                            class="text-sky-400">File/</code></p>
                 </div>
 
                 <!-- File Tree Container -->
@@ -126,7 +149,8 @@
 
                 <!-- Pulsante Nuovo File Manuale -->
                 <div class="pt-3 border-t border-slate-800 mt-2">
-                    <button onclick="promptCreateFile()" class="w-full py-2 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-medium transition flex items-center justify-center space-x-2">
+                    <button onclick="promptCreateFile()"
+                        class="w-full py-2 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-medium transition flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-plus text-sky-400"></i>
                         <span>Crea nuovo file in File/</span>
                     </button>
@@ -155,24 +179,28 @@
 
             <!-- Tab Navigation -->
             <div class="flex border-b border-slate-800 space-x-6 text-sm font-medium">
-                <button id="tabBtnDash" onclick="switchTab('dash')" class="pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2">
+                <button id="tabBtnDash" onclick="switchTab('dash')"
+                    class="pb-3 border-b-2 border-sky-500 text-sky-400 flex items-center space-x-2">
                     <i class="fa-solid fa-chart-pie"></i>
                     <span>Dashboard & Analytics</span>
                 </button>
-                <button id="tabBtnCode" onclick="switchTab('code')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                <button id="tabBtnCode" onclick="switchTab('code')"
+                    class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
                     <i class="fa-solid fa-code"></i>
                     <span>Editor / Code Viewer</span>
                 </button>
-                <button id="tabBtnProjects" onclick="switchTab('projects')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                <button id="tabBtnProjects" onclick="switchTab('projects')"
+                    class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center space-x-2">
                     <i class="fa-solid fa-diagram-project"></i>
                     <span>Gestione Progetti</span>
-                    <span id="projectBadgeCount" class="bg-slate-800 text-slate-300 text-[10px] px-1.5 py-0.5 rounded-full font-mono">0</span>
+                    <span id="projectBadgeCount"
+                        class="bg-slate-800 text-slate-300 text-[10px] px-1.5 py-0.5 rounded-full font-mono">0</span>
                 </button>
             </div>
 
             <!-- TAB 1: DASHBOARD & STATS -->
             <div id="tabDash" class="space-y-6">
-                
+
                 <!-- Cards riassuntive -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-4">
@@ -191,7 +219,8 @@
                         </div>
                         <div>
                             <span class="text-xs text-slate-400 block">Include Header Unici</span>
-                            <span id="detectedIncludesCount" class="text-base font-bold text-slate-100 font-mono">0</span>
+                            <span id="detectedIncludesCount"
+                                class="text-base font-bold text-slate-100 font-mono">0</span>
                         </div>
                     </div>
 
@@ -201,7 +230,8 @@
                         </div>
                         <div>
                             <span class="text-xs text-slate-400 block">Avvisi Code Review</span>
-                            <span id="detectedWarningsCount" class="text-base font-bold text-amber-400 font-mono">0</span>
+                            <span id="detectedWarningsCount"
+                                class="text-base font-bold text-amber-400 font-mono">0</span>
                         </div>
                     </div>
                 </div>
@@ -248,16 +278,20 @@
                     <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
                         <div class="flex items-center space-x-2">
                             <i class="fa-solid fa-code text-sky-400"></i>
-                            <span id="currentEditingFilePath" class="font-mono text-xs text-slate-300 font-semibold">Nessun file selezionato</span>
+                            <span id="currentEditingFilePath"
+                                class="font-mono text-xs text-slate-300 font-semibold">Nessun file selezionato</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button onclick="saveCurrentFile()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium flex items-center space-x-1">
+                            <button onclick="saveCurrentFile()"
+                                class="bg-sky-600 hover:bg-sky-500 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium flex items-center space-x-1">
                                 <i class="fa-solid fa-floppy-disk"></i>
                                 <span>Salva Modifiche</span>
                             </button>
                         </div>
                     </div>
-                    <textarea id="codeEditorArea" class="flex-1 w-full p-4 bg-slate-950 text-slate-200 font-mono text-xs focus:outline-none resize-none leading-relaxed" placeholder="// Seleziona un file dalla cartella File/ a sinistra per visualizzarlo o modificarlo..."></textarea>
+                    <textarea id="codeEditorArea"
+                        class="flex-1 w-full p-4 bg-slate-950 text-slate-200 font-mono text-xs focus:outline-none resize-none leading-relaxed"
+                        placeholder="// Seleziona un file dalla cartella File/ a sinistra per visualizzarlo o modificarlo..."></textarea>
                 </div>
             </div>
 
@@ -266,9 +300,11 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-base font-bold text-slate-100">I Miei Progetti C++</h2>
-                        <p class="text-xs text-slate-400">Traccia l'avanzamento, i bug e le note di ottimizzazione per i tuoi progetti.</p>
+                        <p class="text-xs text-slate-400">Traccia l'avanzamento, i bug e le note di ottimizzazione per i
+                            tuoi progetti.</p>
                     </div>
-                    <button onclick="openNewProjectModal()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-2">
+                    <button onclick="openNewProjectModal()"
+                        class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-2">
                         <i class="fa-solid fa-plus"></i>
                         <span>Nuovo Progetto</span>
                     </button>
@@ -284,7 +320,8 @@
     </main>
 
     <!-- Modal Progetto -->
-    <div id="projectModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div id="projectModal"
+        class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 id="modalProjectTitle" class="text-base font-bold text-slate-100">Nuovo Progetto</h3>
@@ -292,27 +329,35 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            
+
             <form id="projectForm" onsubmit="handleProjectSubmit(event)" class="space-y-4 text-xs">
                 <input type="hidden" id="projId">
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">Nome Progetto</label>
-                    <input type="text" id="projName" required class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="es. GameEngine C++20">
+                    <input type="text" id="projName" required
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none"
+                        placeholder="es. GameEngine C++20">
                 </div>
 
                 <div>
                     <label class="block text-slate-400 font-medium mb-1">Descrizione</label>
-                    <textarea id="projDesc" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="Breve descrizione..."></textarea>
+                    <textarea id="projDesc" rows="2"
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none"
+                        placeholder="Breve descrizione..."></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-slate-400 font-medium mb-1">Avanzamento (%): <span id="projProgVal" class="text-sky-400 font-bold">0%</span></label>
-                        <input type="range" id="projProgress" min="0" max="100" value="0" oninput="document.getElementById('projProgVal').innerText = this.value + '%'" class="w-full accent-sky-500">
+                        <label class="block text-slate-400 font-medium mb-1">Avanzamento (%): <span id="projProgVal"
+                                class="text-sky-400 font-bold">0%</span></label>
+                        <input type="range" id="projProgress" min="0" max="100" value="0"
+                            oninput="document.getElementById('projProgVal').innerText = this.value + '%'"
+                            class="w-full accent-sky-500">
                     </div>
                     <div>
                         <label class="block text-slate-400 font-medium mb-1">Standard C++ Target</label>
-                        <select id="projStd" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none">
+                        <select id="projStd"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none">
                             <option value="C++11">C++11</option>
                             <option value="C++14">C++14</option>
                             <option value="C++17">C++17</option>
@@ -323,13 +368,19 @@
                 </div>
 
                 <div>
-                    <label class="block text-slate-400 font-medium mb-1">Note di Ottimizzazione / SIMD / Architettura</label>
-                    <input type="text" id="projNotes" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none" placeholder="es. Uso AVX2, Lock-free queues...">
+                    <label class="block text-slate-400 font-medium mb-1">Note di Ottimizzazione / SIMD /
+                        Architettura</label>
+                    <input type="text" id="projNotes"
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:border-sky-500 focus:outline-none"
+                        placeholder="es. Uso AVX2, Lock-free queues...">
                 </div>
 
                 <div class="flex justify-end space-x-3 pt-3 border-t border-slate-800">
-                    <button type="button" onclick="closeProjectModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition font-medium">Annulla</button>
-                    <button type="submit" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition font-medium">Salva Progetto</button>
+                    <button type="button" onclick="closeProjectModal()"
+                        class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition font-medium">Annulla</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition font-medium">Salva
+                        Progetto</button>
                 </div>
             </form>
         </div>
@@ -344,7 +395,7 @@
         let chartLangInstance = null;
         let chartIncludesInstance = null;
 
-        window.onload = function() {
+        window.onload = function () {
             loadFromLocalStorage();
 
             // Avvio pulito: se virtualFS è vuoto, la cartella File/ risulta vuota[cite: 5].
@@ -364,10 +415,10 @@
             const savedFS = localStorage.getItem('cpp_wiki_fs') || localStorage.getItem('cpp_analyzed_files');
             const savedProj = localStorage.getItem('cpp_wiki_projects');
             if (savedFS) {
-                try { virtualFS = JSON.parse(savedFS); } catch(e) { virtualFS = {}; }
+                try { virtualFS = JSON.parse(savedFS); } catch (e) { virtualFS = {}; }
             }
             if (savedProj) {
-                try { projects = JSON.parse(savedProj); } catch(e) { projects = []; }
+                try { projects = JSON.parse(savedProj); } catch (e) { projects = []; }
             }
         }
 
@@ -389,7 +440,7 @@
                 let relPath = file.webkitRelativePath || file.name;
                 let targetPath = sanitizeToFilePath(relPath);
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     virtualFS[targetPath] = e.target.result;
                     saveToLocalStorage();
                     renderFileTree();
@@ -418,7 +469,7 @@
                 Array.from(e.dataTransfer.files).forEach(file => {
                     const reader = new FileReader();
                     let targetPath = sanitizeToFilePath(file.name);
-                    reader.onload = function(evt) {
+                    reader.onload = function (evt) {
                         virtualFS[targetPath] = evt.target.result;
                         saveToLocalStorage();
                         renderFileTree();
@@ -445,9 +496,8 @@
             paths.forEach(filePath => {
                 const isSelected = filePath === activeFilePath;
                 const fileEl = document.createElement('div');
-                fileEl.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer text-xs font-mono transition-all ${
-                    isSelected ? 'bg-sky-600/20 text-sky-300 border border-sky-500/40' : 'hover:bg-slate-800 text-slate-300'
-                }`;
+                fileEl.className = `flex items-center justify-between p-2 rounded-lg cursor-pointer text-xs font-mono transition-all ${isSelected ? 'bg-sky-600/20 text-sky-300 border border-sky-500/40' : 'hover:bg-slate-800 text-slate-300'
+                    }`;
 
                 let iconClass = 'fa-file-code text-slate-400';
                 if (filePath.endsWith('.cpp') || filePath.endsWith('.cc')) iconClass = 'fa-brands fa-cplusplus text-sky-400';
@@ -639,7 +689,7 @@
             });
 
             const incCtx = document.getElementById('chartIncludes').getContext('2d');
-            const sortedInc = Object.entries(includesMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
+            const sortedInc = Object.entries(includesMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
             const incLabels = sortedInc.map(i => i[0]);
             const incData = sortedInc.map(i => i[1]);
 
@@ -789,4 +839,5 @@
         }
     </script>
 </body>
+
 </html>
